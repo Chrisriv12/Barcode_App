@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Barcode_App3.Generate_Barcode"
+             Title="Generate Barcode">
+    <VerticalStackLayout Padding="20" Spacing="15">
+        <Label Text="Barcode Generator"
+               FontSize="24"
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
+
+        <Label Text="Select Barcode Type"
+               FontSize="16" />
+        <Picker x:Name="barcodeList"
+                Title="Select Barcode Type">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Code128</x:String>
+                    <x:String>Code39</x:String>
+                    <x:String>UPC_A</x:String>
+                    <x:String>EAN13</x:String>
+                    <x:String>ITF</x:String>
+                    <x:String>QR_CODE</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+
+        <Label Text="Enter Barcode Value"
+               FontSize="16" />
+        <Entry x:Name="barcodeEntry"
+               Placeholder="Enter barcode value" />
+
+        <Button Text="Generate Barcode"
+                Clicked="GenerateBarcodeImage"
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="White"
+                Margin="0,10,0,10" />
+
+        <Image x:Name="barcodeImage"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               WidthRequest="300"
+               HeightRequest="150"
+               Aspect="AspectFit" />
+
+        <Label x:Name="statusLabel"
+               Text=""
+               FontSize="14"
+               TextColor="Red"
+               HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</ContentPage>

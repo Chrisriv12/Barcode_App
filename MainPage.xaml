@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Barcode_App3.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+
+            <Label
+                Text="Generate"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+            <Button
+                x:Name="GenerateBtn"
+                Text="Generate Barcode"
+                SemanticProperties.Hint="Generates a barcode"
+                Clicked="OnGenerateClicked"
+                HorizontalOptions="Fill" />
+
+            <Label
+                Text="Scan "
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level2" />
+
+            <Button
+                x:Name="ScanBtn"
+                Text="Scan Barcode"
+                SemanticProperties.Hint="Scans a barcode"
+                Clicked="OnScanClicked"
+                HorizontalOptions="Fill" />
+
+            <Label
+                Text="Generate QR Code"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level2"/>
+
+
+            <Button
+                x:Name="GenerateQRBtn"
+                Text="Generate QR Code" 
+                SemanticProperties.Hint="Generates QR Code"
+                Clicked="OnQrClicked"
+                HorizontalOptions= "Fill" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
