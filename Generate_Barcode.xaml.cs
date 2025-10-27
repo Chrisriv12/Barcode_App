@@ -1,9 +1,8 @@
 // Generate_Barcode.xaml.cs
-// Generate_Barcode.xaml.cs
 using ZXing;
 using ZXing.Common;
-using ZXing.Rendering;
-using SkiaSharp;
+using ZXing.SkiaSharp;
+using ZXing.SkiaSharp.Rendering;
 
 namespace Barcode_App3
 {
@@ -47,8 +46,8 @@ namespace Barcode_App3
 
             try
             {
-                // Create barcode writer with custom SKBitmap renderer
-                var writer = new BarcodeWriter<SKBitmap>
+                // Create barcode writer with SkiaSharp renderer
+                var writer = new BarcodeWriter<SkiaSharp.SKBitmap>
                 {
                     Format = format,
                     Options = new EncodingOptions
@@ -64,8 +63,8 @@ namespace Barcode_App3
                 var bitmap = writer.Write(text);
 
                 // Convert SKBitmap to Stream for MAUI Image
-                using var image = SKImage.FromBitmap(bitmap);
-                using var data = image.Encode(SKEncodedImageFormat.Png, 100);
+                using var image = SkiaSharp.SKImage.FromBitmap(bitmap);
+                using var data = image.Encode(SkiaSharp.SKEncodedImageFormat.Png, 100);
                 var stream = data.AsStream();
 
                 barcodeImage.Source = ImageSource.FromStream(() => stream);
@@ -75,36 +74,6 @@ namespace Barcode_App3
             {
                 await DisplayAlert("Error", $"Failed to generate barcode: {ex.Message}", "OK");
             }
-        }
-    }
-
-    // Custom renderer for SkiaSharp
-    public class SKBitmapRenderer : IBarcodeRenderer<SKBitmap>
-    {
-        public SKBitmap Render(BitMatrix matrix, BarcodeFormat format, string content)
-        {
-            return Render(matrix, format, content, new EncodingOptions());
-        }
-
-        public SKBitmap Render(BitMatrix matrix, BarcodeFormat format, string content, EncodingOptions options)
-        {
-            int width = matrix.Width;
-            int height = matrix.Height;
-
-            var bitmap = new SKBitmap(width, height);
-
-            var foreground = SKColors.Black;
-            var background = SKColors.White;
-
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    bitmap.SetPixel(x, y, matrix[x, y] ? foreground : background);
-                }
-            }
-
-            return bitmap;
         }
     }
 }
