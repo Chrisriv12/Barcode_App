@@ -67,6 +67,19 @@ namespace Barcode_App3
                 using var data = image.Encode(SkiaSharp.SKEncodedImageFormat.Png, 100);
                 var stream = data.AsStream();
 
+                //Converts to byte array for passing to the next page 
+                byte[] imageBytes = data.ToArray();
+
+                // Navigate to Barcode_ImagePage with parameters
+                var navigationParameter = new Dictionary<string, object>
+                {
+                    { "imageBytes", imageBytes },
+                    { "value", text },
+                    { "type", selectedType }
+                };
+
+                await Shell.Current.GoToAsync(nameof(Barcode_ImagePage),navigationParameter);
+
                 barcodeImage.Source = ImageSource.FromStream(() => stream);
                 statusLabel.Text = $"Generated {selectedType} barcode";
             }
@@ -74,6 +87,28 @@ namespace Barcode_App3
             {
                 await DisplayAlert("Error", $"Failed to generate barcode: {ex.Message}", "OK");
             }
+        }
+    }
+
+    // Ensure Barcode_Image inherits from ContentPage, not ContentView
+    public class Barcode_ImagePage : ContentPage
+    {
+        private byte[] _imageBytes;
+        private string _barcodeValue;
+        private string _barcodeType;
+        private Image barcodeImage;
+
+        public Barcode_ImagePage(byte[] imageBytes, string value, string type)
+        {
+            _imageBytes = imageBytes;
+            _barcodeValue = value;
+            _barcodeType = type;
+            InitializeComponent();
+        }
+
+        private void InitializeComponent()
+        {
+            // Your UI initialization code here
         }
     }
 }

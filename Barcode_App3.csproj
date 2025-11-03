@@ -62,6 +62,7 @@
 	<ItemGroup>
 		<PackageReference Include="BarCode" Version="2025.10.4" />
 		<PackageReference Include="BarcodeLib.Barcode" Version="7.4.2.20" />
+		<PackageReference Include="Camera.MAUI" Version="1.5.1" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.5" />
 		<PackageReference Include="QRCoder" Version="1.7.0" />
@@ -74,6 +75,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Barcode_ImagePage.xaml.cs">
+	    <DependentUpon>Barcode_ImagePage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Barcode_ImagePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Generate_Barcode.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

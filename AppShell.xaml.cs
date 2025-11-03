@@ -12,6 +12,7 @@ namespace Barcode_App3
             Routing.RegisterRoute(nameof(Generate_Barcode), typeof(Generate_Barcode));
             Routing.RegisterRoute(nameof(Scan_Barcode), typeof(Scan_Barcode));
             Routing.RegisterRoute(nameof(QR_Generator), typeof(QR_Generator));
+            Routing.RegisterRoute(nameof(Barcode_ImagePage), typeof(Barcode_ImagePage));
         }
     }
 }
