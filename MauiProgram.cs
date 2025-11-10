@@ -2,6 +2,7 @@
 using ZXing.Net.Maui.Controls;
 using ZXing.Net.Maui;
 using Camera.MAUI;
+using CommunityToolkit.Maui;
 
 namespace Barcode_App3
 {
@@ -14,6 +15,7 @@ namespace Barcode_App3
                 .UseMauiApp<App>()
                 .UseBarcodeReader()
                 .UseMauiCameraView()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

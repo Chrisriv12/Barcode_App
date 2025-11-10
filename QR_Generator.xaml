@@ -10,25 +10,18 @@
             HorizontalOptions="Center" />
 
         <Label 
-            Text="Enter value fo QR code "
+            Text="Enter value for QR code "
             FontSize="16" />
-        
+
         <Entry 
             x:Name = " QRCodeEntry"
             Placeholder =  "Enter a value" />
 
-        <Image 
-            x:Name=" QRImage"
-            HorizontalOptions="Center"
-            VerticalOptions="Center"
-            WidthRequest="300"
-            HeightRequest="150"/>
-
-        <Label 
+        <!--<Label 
             x:Name=" statusLabel"
             Text=""
             FontSize="14"
-            TextColor="Red" />
+            TextColor="Red" />-->
     
 
         <Button

@@ -12,14 +12,16 @@
             FontSize="22"
             HorizontalOptions="Center" />
 
-        <zxing:CameraBarcodeReaderView 
+        <zxing:CameraBarcodeReaderView
             x:Name="cameraView"
             BarcodesDetected="CameraBarcodeReaderView_BarcodesDetected"
+            IsDetecting="True"
             HeightRequest="400" />
 
         <Label 
             x:Name="barcodeResult"
-            FontSize="18"
+            FontSize="20"
+            TextColor="red"
             Text="Awaiting scan..."
             HorizontalOptions="Center"
             VerticalOptions="Center" />

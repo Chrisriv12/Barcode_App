@@ -3,6 +3,7 @@ using ZXing;
 using ZXing.Common;
 using ZXing.Rendering;
 using SkiaSharp;
+using CommunityToolkit.Maui.Extensions;
 
 namespace Barcode_App3;
 
@@ -41,12 +42,17 @@ public partial class QR_Generator : ContentPage
 		using var image = SKImage.FromBitmap(bitmap);
 		using var data = image.Encode(SKEncodedImageFormat.Png, 100);
 
-		// Copy encoded bytes into a MemoryStream so the stream stays alive for the ImageSource
-		var pngBytes = data.ToArray();
-		var ms = new MemoryStream(pngBytes);
-		QRImage.Source = ImageSource.FromStream(() => { ms.Position = 0; return ms; });
+        // Copy encoded bytes into a MemoryStream so the stream stays alive for the ImageSource
+        var memoryStream = new MemoryStream();
+        data.SaveTo(memoryStream);
+        memoryStream.Position = 0;
 
-		statusLabel.Text = "Generated QR code";
+		//Convert to ImageSource for the data stream 
+		var imageSource = ImageSource.FromStream(() => new MemoryStream(memoryStream.ToArray()));
+
+		//Show popup and pass QR code image plus the value 
+		var popup = new QR_ImagePage(imageSource, text, memoryStream);
+		await this.ShowPopupAsync(popup);
 	}
 
 	// Custom renderer for SkiaSharp

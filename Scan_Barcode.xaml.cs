@@ -8,6 +8,14 @@ public partial class Scan_Barcode : ContentPage
     public Scan_Barcode()
     {
         InitializeComponent();
+
+
+        cameraView.Options = new BarcodeReaderOptions
+        {
+            AutoRotate = true,
+            TryHarder = true,
+            Formats = BarcodeFormats.All
+        };
     }
 
     private void CameraBarcodeReaderView_CamerasLoaded(object sender, EventArgs e)

@@ -1,23 +1,50 @@
-namespace Barcode_App3;
+﻿using CommunityToolkit.Maui.Views;
+using Barcode_App3.Helpers; // <-- include the helper
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Microsoft.Maui.Storage;
 
-public partial class Barcode_Image : ContentView
+namespace Barcode_App3
 {
-    private byte[] _imageBytes;
-    private string _barcodeValue;
-    private string _barcodeType;
+    public partial class Barcode_ImagePage : Popup
+    {
+        private readonly Stream barcode_Stream;
+        private readonly string barcode_Value;
 
-    public Barcode_Image(byte[] imageBytes, string value, string type)
-	{
-		InitializeComponent();
+        public Barcode_ImagePage(ImageSource barcodeSource, string barcodeValue, Stream barcodeStream)
+        {
+            InitializeComponent();
 
+            barcode_Stream = barcodeStream;
+            barcode_Value = barcodeValue;
+            barcodeImage.Source = barcodeSource;
+            barcodeValueLabel.Text = barcodeValue;
+        }
 
-        _imageBytes = imageBytes;
-        _barcodeValue = value;
-        _barcodeType = type;
+        private async void OnSaveClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                string fileName = $"Barcode_{DateTime.Now:yyyyMMdd_HHmmss}.png";
 
-        // Display the barcode
-        var stream = new MemoryStream(imageBytes);
-        barcodeImage.Source = ImageSource.FromStream(() => new MemoryStream(imageBytes));
+                // ✅ Use the cross-platform helper
+                string savedPath = await FileHelper.SaveBarcodeAsync(barcode_Stream, fileName);
 
+                await Shell.Current.DisplayAlert("Success", $"Barcode saved to:\n{savedPath}", "OK");
+
+                // Optional: Share the file
+                await Share.RequestAsync(new ShareFileRequest
+                {
+                    Title = "Share Barcode",
+                    File = new ShareFile(savedPath)
+                });
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", $"Barcode not saved: {ex.Message}", "OK");
+            }
+        }
     }
 }
+

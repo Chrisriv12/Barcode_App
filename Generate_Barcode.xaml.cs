@@ -1,4 +1,4 @@
-// Generate_Barcode.xaml.cs
+﻿using CommunityToolkit.Maui.Extensions;
 using ZXing;
 using ZXing.Common;
 using ZXing.SkiaSharp;
@@ -65,50 +65,24 @@ namespace Barcode_App3
                 // Convert SKBitmap to Stream for MAUI Image
                 using var image = SkiaSharp.SKImage.FromBitmap(bitmap);
                 using var data = image.Encode(SkiaSharp.SKEncodedImageFormat.Png, 100);
-                var stream = data.AsStream();
+                var stream = new MemoryStream(data.ToArray());
 
-                //Converts to byte array for passing to the next page 
-                byte[] imageBytes = data.ToArray();
+                // ✅ Convert to ImageSource for the popup
+                var imageSource = ImageSource.FromStream(() => stream);
 
-                // Navigate to Barcode_ImagePage with parameters
-                var navigationParameter = new Dictionary<string, object>
-                {
-                    { "imageBytes", imageBytes },
-                    { "value", text },
-                    { "type", selectedType }
-                };
+                //Passing a copy of the data stream 
+                var memoryStream = new MemoryStream();
+                data.SaveTo(memoryStream);
+                memoryStream.Position = 0;
 
-                await Shell.Current.GoToAsync(nameof(Barcode_ImagePage),navigationParameter);
-
-                barcodeImage.Source = ImageSource.FromStream(() => stream);
-                statusLabel.Text = $"Generated {selectedType} barcode";
+                // ✅ Show popup and pass barcode image + value
+                var popup = new Barcode_ImagePage(imageSource, text, memoryStream);
+                await this.ShowPopupAsync(popup);
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Error", $"Failed to generate barcode: {ex.Message}", "OK");
             }
-        }
-    }
-
-    // Ensure Barcode_Image inherits from ContentPage, not ContentView
-    public class Barcode_ImagePage : ContentPage
-    {
-        private byte[] _imageBytes;
-        private string _barcodeValue;
-        private string _barcodeType;
-        private Image barcodeImage;
-
-        public Barcode_ImagePage(byte[] imageBytes, string value, string type)
-        {
-            _imageBytes = imageBytes;
-            _barcodeValue = value;
-            _barcodeType = type;
-            InitializeComponent();
-        }
-
-        private void InitializeComponent()
-        {
-            // Your UI initialization code here
         }
     }
 }
